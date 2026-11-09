@@ -36,8 +36,8 @@ Requires macOS 12 or later.
 You need the Xcode Command Line Tools (`xcode-select --install` if you don't have them).
 
 ```bash
-git clone <this-repo-url>
-cd <repo-folder>
+git clone https://github.com/JaweriaShehzad/pomodoro-menubar.git
+cd pomodoro-menubar
 ./install.sh
 ```
 
