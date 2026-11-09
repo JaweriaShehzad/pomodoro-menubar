@@ -1,0 +1,5 @@
+Pomodoro.app/
+*.zip
+clock.html
+notify.sh
+.DS_Store
