@@ -13,6 +13,7 @@ A tiny Pomodoro timer that lives in your Mac's menu bar. Click ▶, study for 45
 - **One-click start.** Click **▶ 45:00** in the menu bar and the 45-minute focus session begins.
 - **Live countdown in the menu bar.** Green during focus, red during the break.
 - **Automatic break.** When focus ends, a 15-minute break starts by itself. You get a notification and the timer **beeps for about 30 seconds**. Click the timer to silence it.
+- **Your own alarm song (optional).** Add any audio file and it plays on repeat when focus ends, until you click the timer. See [Use your own alarm song](#use-your-own-alarm-song).
 - **Break-over reminder.** A few beeps and a notification tell you when it's time to start again.
 - **Daily session counter.** After each full 45-minute session the count goes up (`1/8`, `2/8`, …) toward a goal of 8 sessions (6 hours). The menu shows your total time studied today.
 - **Late-night friendly.** A "study day" runs from 5 AM to 5 AM, so sessions after midnight still count toward the same day.
@@ -64,6 +65,26 @@ To also start it automatically every time you log in:
 | Quit | Right-click → **Quit Pomodoro** |
 
 **What counts as a session:** only focus sessions that run the full 45 minutes. Using **Skip to break** or **Stop** doesn't add to the count.
+
+## Use your own alarm song
+
+Instead of beeps, Pomodoro can play a song of your choice on repeat when a focus session ends. It keeps playing until you click the timer.
+
+1. Open the alarm folder. Paste this into Terminal (it creates the folder if needed):
+   ```bash
+   mkdir -p ~/Library/Application\ Support/Pomodoro && open ~/Library/Application\ Support/Pomodoro
+   ```
+2. Put an audio file in that folder and name it **`alarm.mp3`**. You can also use `alarm.m4a`, `alarm.wav`, `alarm.aiff` or `alarm.aac`.
+3. That's it. No restart needed: the app looks for the file each time a session ends.
+
+**Got a video instead (`.mov` or `.mp4`)?** Convert it to audio with macOS's built-in tool:
+
+```bash
+avconvert --source ~/Downloads/your-video.mov --preset PresetAppleM4A \
+  --output ~/Library/Application\ Support/Pomodoro/alarm.m4a
+```
+
+To go back to beeps, delete the `alarm` file. The end-of-break reminder always uses short beeps.
 
 ## Customize
 

@@ -94,8 +94,8 @@ final class App: NSObject, NSApplicationDelegate {
             if phase == .focus {
                 Tally.count += 1
                 startBreak()
-                notify("Session \(Tally.count)/\(DAILY_GOAL) done 🔴", "15-min break starts now. Click the timer to silence the beeping.")
-                startBeeping(times: 20)
+                notify("Session \(Tally.count)/\(DAILY_GOAL) done 🔴", "15-min break starts now. Click the timer to stop the alarm.")
+                playAlarm()
             } else {
                 phase = .idle
                 save()
@@ -137,7 +137,31 @@ final class App: NSObject, NSApplicationDelegate {
         }
         beepTimer?.fire()
     }
-    func stopBeeping() { beepTimer?.invalidate(); beepTimer = nil }
+    func stopBeeping() { beepTimer?.invalidate(); beepTimer = nil; alarm?.stop(); alarm = nil }
+
+    // Custom alarm: drop a file named alarm.mp3 / .m4a / .wav / .aiff into
+    // ~/Library/Application Support/Pomodoro/ and it loops when focus ends until you click the timer.
+    // Without a file it falls back to the Glass beeps.
+    var alarm: NSSound?
+    static let alarmDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        .appendingPathComponent("Pomodoro")
+    func alarmURL() -> URL? {
+        for ext in ["mp3", "m4a", "wav", "aiff", "aac"] {
+            let u = App.alarmDir.appendingPathComponent("alarm.\(ext)")
+            if FileManager.default.fileExists(atPath: u.path) { return u }
+        }
+        return nil
+    }
+    func playAlarm() {
+        stopBeeping()
+        if let url = alarmURL(), let s = NSSound(contentsOf: url, byReference: true) {
+            s.loops = true
+            s.play()
+            alarm = s
+        } else {
+            startBeeping(times: 20)
+        }
+    }
 
     func notify(_ title: String, _ body: String) {
         let p = Process()

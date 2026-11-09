@@ -1,5 +1,12 @@
-Pomodoro.app/
+*.app/
 *.zip
 clock.html
 notify.sh
 .DS_Store
+*.mov
+*.MOV
+*.mp4
+*.MP4
+*.m4a
+*.mp3
+*.wav
